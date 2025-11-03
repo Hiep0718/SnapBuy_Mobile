@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Switch } from "react-native";
-import { ProductCard } from "../components/ProductCard";
+import { ProductCard } from "../components/Product_Detail_Card";
 import { RatingStars } from "../components/RatingStars";
 import { ReviewItem } from "../components/ReviewItem";
 

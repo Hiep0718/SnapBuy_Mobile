@@ -3,9 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 
 
 
-import HomeScreen from './screens/HomeScreen';
-import { ProductDetailScreen } from './screens/ProductDetailScreen';
-import ClothesDetailScreen from './screens/ClothesDetailScreen';
+
+import ElectronicsCategoryScreen from './screens/ElectronicsCategoryScreen';
+import FilterScreen from './screens/FilterScreen';
+import SearchScreen from './screens/SearchScreen';
 
 
 export default function App() {
@@ -15,8 +16,8 @@ export default function App() {
 
       {/* <HomeScreen /> */}
       {/* <ProductDetailScreen /> */}
-      <ClothesDetailScreen />
-
+      <SearchScreen />
+      {/* <ElectronicsCategoryScreen /> */}
 
     </View>
   );

@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity, Text } from "react-native";
+import {
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    Text,
+} from "react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
+
 import ProductImageGallery from "../components/clothesDetail/ProductImageGallery";
 import ProductInfo from "../components/clothesDetail/ProductInfo";
 import ProductOptions from "../components/clothesDetail/ProductOptions";
@@ -7,7 +14,24 @@ import ProductQuantity from "../components/clothesDetail/ProductQuantity";
 import SizeGuide from "../components/clothesDetail/SizeGuide";
 import ProductReviews from "../components/clothesDetail/ProductReviews";
 
-export default function ClothesDetailScreen() {
+// 🧩 Khai báo danh sách màn hình trong stack
+type RootStackParamList = {
+    ClothesDetail: undefined;
+    Feedback: undefined;
+};
+
+// 🧩 Kiểu dữ liệu cho navigation prop
+type ClothesDetailScreenNavProp = StackNavigationProp<
+    RootStackParamList,
+    "ClothesDetail"
+>;
+
+// 🧩 Props của màn hình
+type Props = {
+    navigation: ClothesDetailScreenNavProp;
+};
+
+export default function ClothesDetailScreen({ navigation }: Props) {
     const product = {
         id: "1",
         name: "Yellow Hoodie",
@@ -48,8 +72,16 @@ export default function ClothesDetailScreen() {
                 price={product.price}
             />
             <ProductReviews />
+
             <TouchableOpacity style={styles.buyButton}>
                 <Text style={styles.buyText}>🛒 Add to Cart</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                style={styles.feedbackButton}
+                onPress={() => navigation.navigate("Feedback")}
+            >
+                <Text style={styles.feedbackText}>💬 Gửi Feedback</Text>
             </TouchableOpacity>
         </ScrollView>
     );
@@ -63,7 +95,19 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: "center",
         marginTop: 20,
-        marginBottom: 30,
     },
     buyText: { color: "#fff", fontWeight: "700", fontSize: 18 },
+    feedbackButton: {
+        backgroundColor: "#eee",
+        paddingVertical: 12,
+        borderRadius: 10,
+        alignItems: "center",
+        marginTop: 12,
+        marginBottom: 30,
+    },
+    feedbackText: {
+        color: "#333",
+        fontWeight: "600",
+        fontSize: 16,
+    },
 });

@@ -3,13 +3,20 @@ import { StyleSheet, Text, View } from 'react-native';
 
 
 
-import ProductListingGridScreen from './screens/ProductListingScreen';
+import HomeScreen from './screens/HomeScreen';
+import { ProductDetailScreen } from './screens/ProductDetailScreen';
+import ClothesDetailScreen from './screens/ClothesDetailScreen';
+
 
 export default function App() {
   return (
     <View style={styles.container}>
 
-      <ProductListingGridScreen />
+
+      {/* <HomeScreen /> */}
+      {/* <ProductDetailScreen /> */}
+      <ClothesDetailScreen />
+
 
     </View>
   );

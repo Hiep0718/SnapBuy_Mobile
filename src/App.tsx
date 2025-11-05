@@ -39,20 +39,13 @@
 //   },
 // });
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import ClothesDetailScreen from './screens/ClothesDetailScreen';
 import FeedbackScreen from './screens/FeedbackScreen';
+import PaymentScreen from './screens/PaymentScreen';
 
-const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="ClothesDetail" component={ClothesDetailScreen} />
-        <Stack.Screen name="Feedback" component={FeedbackScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <PaymentScreen />
   );
 }

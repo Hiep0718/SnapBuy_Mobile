@@ -41,12 +41,14 @@
 
 import ClothesDetailScreen from './screens/ClothesDetailScreen';
 import FeedbackScreen from './screens/FeedbackScreen';
+import LoginScreen from './screens/LoginScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PaymentSuccessScreen from './screens/PaymentSuccessScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 
 export default function App() {
   return (
-    <PaymentSuccessScreen />
+    <RegisterScreen />
   );
 }

@@ -41,6 +41,7 @@
 
 import ClothesDetailScreen from './screens/ClothesDetailScreen';
 import FeedbackScreen from './screens/FeedbackScreen';
+import CheckoutScreen from './screens/CheckoutScreen';
 import LoginScreen from './screens/LoginScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PaymentSuccessScreen from './screens/PaymentSuccessScreen';

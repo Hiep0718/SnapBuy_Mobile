@@ -51,14 +51,7 @@ const FilterScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* Header */}
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerTitle}>Filter</Text>
-        <TouchableOpacity>
-          <Ionicons name="close" size={24} color="#000" />
-        </TouchableOpacity>
-      </View>
-
+      
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {/* Shipping Options Section */}
         <View style={styles.section}>

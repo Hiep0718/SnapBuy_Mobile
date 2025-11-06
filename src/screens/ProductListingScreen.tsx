@@ -38,9 +38,12 @@ const relevantProducts = [
 const { width: screenWidth } = Dimensions.get("window")
 
 // --- Component ---
-const ProductListingGridScreen: React.FC = () => {
+const ProductListingScreen: React.FC<{
+  onViewProductDetail?: () => void
+}> = ({ onViewProductDetail }) => {
   const [carouselIndex, setCarouselIndex] = useState(0)
   const [activeTab, setActiveTab] = useState("home")
+  const [activeNav, setActiveNav] = useState("home")
 
   const handleScroll = (event: any) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x
@@ -61,7 +64,7 @@ const ProductListingGridScreen: React.FC = () => {
   }
 
   const renderGridProduct = (product: any) => (
-    <TouchableOpacity style={styles.gridProductCard}>
+    <TouchableOpacity style={styles.gridProductCard} onPress={onViewProductDetail}>
       <View style={styles.productImageContainer}>
         <Image source={require("../../assets/icon.png")} style={styles.productImage} />
       </View>
@@ -77,7 +80,7 @@ const ProductListingGridScreen: React.FC = () => {
   )
 
   const renderRelevantProduct = (product: any) => (
-    <TouchableOpacity style={styles.relevantProductCard} key={product.id}>
+    <TouchableOpacity style={styles.relevantProductCard} key={product.id} onPress={onViewProductDetail}>
       <View style={styles.relevantImageContainer}>
         <Image source={require("../../assets/icon.png")} style={styles.relevantImage} />
       </View>
@@ -170,57 +173,6 @@ const ProductListingGridScreen: React.FC = () => {
         <View style={{ height: 100 }} />
       </ScrollView>
 
-      <View style={styles.bottomTabBar}>
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveTab("home")}>
-          <Ionicons
-            name={activeTab === "home" ? "home" : "home-outline"}
-            size={24}
-            color={activeTab === "home" ? "#00BCD4" : "#9E9E9E"}
-          />
-          <Text style={[styles.tabLabel, activeTab === "home" && styles.activeTabLabel]}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveTab("search")}>
-          <Ionicons
-            name={activeTab === "search" ? "search" : "search-outline"}
-            size={24}
-            color={activeTab === "search" ? "#00BCD4" : "#9E9E9E"}
-          />
-          <Text style={[styles.tabLabel, activeTab === "search" && styles.activeTabLabel]}>Search</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveTab("favorites")}>
-          <Ionicons
-            name={activeTab === "favorites" ? "heart" : "heart-outline"}
-            size={24}
-            color={activeTab === "favorites" ? "#00BCD4" : "#9E9E9E"}
-          />
-          <Text style={[styles.tabLabel, activeTab === "favorites" && styles.activeTabLabel]}>Favorites</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveTab("inbox")}>
-          <View style={styles.tabIconContainer}>
-            <Ionicons
-              name={activeTab === "inbox" ? "mail" : "mail-outline"}
-              size={24}
-              color={activeTab === "inbox" ? "#00BCD4" : "#9E9E9E"}
-            />
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>1</Text>
-            </View>
-          </View>
-          <Text style={[styles.tabLabel, activeTab === "inbox" && styles.activeTabLabel]}>Inbox</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveTab("account")}>
-          <Ionicons
-            name={activeTab === "account" ? "person" : "person-outline"}
-            size={24}
-            color={activeTab === "account" ? "#00BCD4" : "#9E9E9E"}
-          />
-          <Text style={[styles.tabLabel, activeTab === "account" && styles.activeTabLabel]}>Account</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   )
 }
@@ -512,4 +464,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ProductListingGridScreen
+export default ProductListingScreen

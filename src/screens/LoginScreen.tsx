@@ -1,3 +1,4 @@
+"use client"
 
 import type React from "react"
 import { useState } from "react"
@@ -6,12 +7,17 @@ import { Ionicons } from "@expo/vector-icons"
 
 interface LoginScreenProps {
   onNavigate?: () => void
+  onSignInSuccess?: () => void
 }
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigate }) => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigate, onSignInSuccess }) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
+
+  const handleSignIn = () => {
+    onSignInSuccess?.()
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -70,7 +76,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigate }) => {
           </TouchableOpacity>
 
           {/* Login Button */}
-          <TouchableOpacity style={styles.loginButton}>
+          <TouchableOpacity style={styles.loginButton} onPress={handleSignIn}>
             <Text style={styles.loginButtonText}>Sign In</Text>
           </TouchableOpacity>
 

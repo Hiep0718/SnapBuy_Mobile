@@ -1,3 +1,5 @@
+"use client"
+
 import type React from "react"
 import { useState } from "react"
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native"
@@ -31,7 +33,10 @@ const paymentMethods = [
 ]
 
 // --- Component ---
-const PaymentScreen: React.FC = () => {
+const PaymentScreen: React.FC<{
+  onPaymentSuccess?: () => void
+  onBack?: () => void
+}> = ({ onPaymentSuccess, onBack }) => {
   const [selectedPayment, setSelectedPayment] = useState(1)
   const [activeNav, setActiveNav] = useState("home")
 
@@ -39,7 +44,7 @@ const PaymentScreen: React.FC = () => {
     <SafeAreaView style={styles.safeArea}>
       {/* Header */}
       <View style={styles.headerContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onBack}>
           <Ionicons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Payment</Text>
@@ -85,7 +90,7 @@ const PaymentScreen: React.FC = () => {
         </View>
 
         {/* Pay Now Button */}
-        <TouchableOpacity style={styles.payButton}>
+        <TouchableOpacity style={styles.payButton} onPress={onPaymentSuccess}>
           <Ionicons name="wallet-outline" size={20} color="#fff" />
           <Text style={styles.payButtonText}>Pay now</Text>
         </TouchableOpacity>

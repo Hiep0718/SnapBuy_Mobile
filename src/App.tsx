@@ -43,21 +43,31 @@ import ClothesDetailScreen from './screens/ClothesDetailScreen';
 import FeedbackScreen from './screens/FeedbackScreen';
 
 import CheckoutScreen from './screens/CheckoutScreen';
+import LoginScreen from './screens/LoginScreen';
+import PaymentScreen from './screens/PaymentScreen';
+import PaymentSuccessScreen from './screens/PaymentSuccessScreen';
+import RegisterScreen from './screens/RegisterScreen';
+
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import ReviewListScreen from './screens/ReviewListScreen';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
+
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Checkout" component={CheckoutScreen} />
+        {/* <Stack.Screen name="Checkout" component={CheckoutScreen} />
         <Stack.Screen name="ClothesDetail" component={ClothesDetailScreen} />
-        <Stack.Screen name="Feedback" component={FeedbackScreen} />
+        <Stack.Screen name="Feedback" component={FeedbackScreen} /> */}
+        <Stack.Screen name="ReviewList" component={ReviewListScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>
+
 
   );
 }

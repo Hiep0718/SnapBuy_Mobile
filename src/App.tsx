@@ -39,11 +39,12 @@
 //   },
 // });
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import ClothesDetailScreen from './screens/ClothesDetailScreen';
 import FeedbackScreen from './screens/FeedbackScreen';
+
 import CheckoutScreen from './screens/CheckoutScreen';
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
 
@@ -57,5 +58,6 @@ export default function App() {
 
       </Stack.Navigator>
     </NavigationContainer>
+
   );
 }

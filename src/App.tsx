@@ -6,6 +6,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
 import { Ionicons } from "@expo/vector-icons"
+import { SNAPBUY_COLORS } from "./constants/theme"
 
 // Import all screens
 import HomeScreen from "./screens/HomeScreen"
@@ -22,6 +23,9 @@ import PaymentScreen from "./screens/PaymentScreen"
 import PaymentSuccessScreen from "./screens/PaymentSuccessScreen"
 import ReviewListScreen from "./screens/ReviewListScreen"
 import FeedbackScreen from "./screens/FeedbackScreen"
+import CategoryDetailScreen from "./screens/CategoryDetailScreen"
+import FashionCategoryScreen from "./screens/FashionCategoryScreen"
+import ClothesDetailScreen from "./screens/ClothesDetailScreen"
 
 interface TabScreenProps {
   name: string
@@ -36,6 +40,8 @@ const App: React.FC = () => {
   const [navigationStack, setNavigationStack] = useState<string[]>([])
   const [showFilterModal, setShowFilterModal] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<any>(null)
+  const [selectedCategory, setSelectedCategory] = useState<any>(null)
+  const [selectedClothing, setSelectedClothing] = useState<any>(null)
 
   const tabScreens: TabScreenProps[] = [
     {
@@ -103,6 +109,24 @@ const App: React.FC = () => {
     setActiveTab("home")
   }
 
+  const handleCategorySelected = (category: any) => {
+    setSelectedCategory(category)
+    if (category.id === 2) {
+      setNavigationStack([...navigationStack, "fashionCategory"])
+    } else {
+      setNavigationStack([...navigationStack, "categoryDetail"])
+    }
+  }
+
+  const handleClothingSelected = (clothing: any) => {
+    setSelectedClothing(clothing)
+    setNavigationStack([...navigationStack, "clothesDetail"])
+  }
+
+  const handleNavigateToSearch = () => {
+    setActiveTab("search")
+  }
+
   const currentScreen = navigationStack[navigationStack.length - 1]
 
   // Auth screens
@@ -123,6 +147,51 @@ const App: React.FC = () => {
   }
 
   // Detail screens stack
+  if (currentScreen === "fashionCategory") {
+    return (
+      <SafeAreaView style={styles.screenOverlay}>
+        <View style={styles.detailHeader}>
+          <TouchableOpacity onPress={handleBackNavigation}>
+            <Ionicons name="arrow-back" size={24} color="#000" />
+          </TouchableOpacity>
+          <Text style={styles.detailTitle}>Fashion</Text>
+          <View style={{ width: 24 }} />
+        </View>
+        <FashionCategoryScreen onSelectClothing={handleClothingSelected} />
+      </SafeAreaView>
+    )
+  }
+
+  if (currentScreen === "clothesDetail") {
+    return (
+      <SafeAreaView style={styles.screenOverlay}>
+        <View style={styles.detailHeader}>
+          <TouchableOpacity onPress={handleBackNavigation}>
+            <Ionicons name="arrow-back" size={24} color="#000" />
+          </TouchableOpacity>
+          <Text style={styles.detailTitle}>Clothes Detail</Text>
+          <View style={{ width: 24 }} />
+        </View>
+        <ClothesDetailScreen navigation={{ navigate: () => {} } as any} />
+      </SafeAreaView>
+    )
+  }
+
+  if (currentScreen === "categoryDetail") {
+    return (
+      <SafeAreaView style={styles.screenOverlay}>
+        <View style={styles.detailHeader}>
+          <TouchableOpacity onPress={handleBackNavigation}>
+            <Ionicons name="arrow-back" size={24} color="#000" />
+          </TouchableOpacity>
+          <Text style={styles.detailTitle}>{selectedCategory?.name}</Text>
+          <View style={{ width: 24 }} />
+        </View>
+        <CategoryDetailScreen category={selectedCategory} onViewProductDetail={handleProductSelected} />
+      </SafeAreaView>
+    )
+  }
+
   if (currentScreen === "productDetail") {
     return (
       <SafeAreaView style={styles.screenOverlay}>
@@ -228,6 +297,8 @@ const App: React.FC = () => {
           onNavigateLogin={handleNavigateToLogin}
           onNavigateRegister={handleNavigateToRegister}
           onViewProductDetail={handleProductSelected}
+          onNavigateToCategory={handleCategorySelected}
+          onNavigateToSearch={handleNavigateToSearch}
           onShowFilter={() => setShowFilterModal(true)}
           onHideFilter={() => setShowFilterModal(false)}
         />
@@ -239,7 +310,7 @@ const App: React.FC = () => {
             <Ionicons
               name={activeTab === screen.name ? screen.icon : `${screen.icon}-outline`}
               size={24}
-              color={activeTab === screen.name ? "#00BCD4" : "#9E9E9E"}
+              color={activeTab === screen.name ? SNAPBUY_COLORS.primary : SNAPBUY_COLORS.text.tertiary}
             />
             <Text style={[styles.tabLabel, activeTab === screen.name && styles.activeTabLabel]}>{screen.label}</Text>
           </TouchableOpacity>
@@ -252,18 +323,18 @@ const App: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: SNAPBUY_COLORS.background,
   },
   screenContainer: {
     flex: 1,
   },
   authContainer: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: SNAPBUY_COLORS.surface,
   },
   screenOverlay: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: SNAPBUY_COLORS.surface,
   },
   detailHeader: {
     flexDirection: "row",
@@ -272,18 +343,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: SNAPBUY_COLORS.border,
   },
   detailTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#000",
+    color: SNAPBUY_COLORS.text.primary,
   },
   bottomTabBar: {
     flexDirection: "row",
-    backgroundColor: "#fff",
+    backgroundColor: SNAPBUY_COLORS.surface,
     borderTopWidth: 1,
-    borderTopColor: "#f0f0f0",
+    borderTopColor: SNAPBUY_COLORS.border,
     paddingVertical: 8,
     paddingBottom: 12,
   },
@@ -297,11 +368,11 @@ const styles = StyleSheet.create({
   tabLabel: {
     fontSize: 11,
     fontWeight: "600",
-    color: "#9E9E9E",
+    color: SNAPBUY_COLORS.text.tertiary,
     marginTop: 2,
   },
   activeTabLabel: {
-    color: "#00BCD4",
+    color: SNAPBUY_COLORS.primary,
     fontWeight: "700",
   },
 })

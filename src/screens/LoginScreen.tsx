@@ -1,8 +1,6 @@
-"use client"
-
 import type React from "react"
 import { useState } from "react"
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, TextInput } from "react-native"
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, TextInput,Image } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 
 interface LoginScreenProps {
@@ -24,9 +22,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigate, onSignInSuccess }
       <View style={styles.container}>
         {/* Logo Section */}
         <View style={styles.logoSection}>
-          <View style={styles.logoCircle}>
-            <Ionicons name="bag-check-outline" size={48} color="#00BCD4" />
-          </View>
+            <Image source={require("../../assets/app-icons/logo.png")} style={styles.logoCircle} resizeMode="contain" />
           <Text style={styles.appName}>SnapBuy</Text>
         </View>
 
@@ -271,6 +267,10 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "700",
     color: "#00BCD4",
+  },
+  logoImage: {
+    width: 48,
+    height: 48,
   },
 })
 

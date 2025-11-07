@@ -127,6 +127,11 @@ const App: React.FC = () => {
     setActiveTab("search")
   }
 
+  const handleGoToClothesDetail = () => {
+    setNavigationStack([...navigationStack, "clothesDetail"]);
+  };
+
+
   const currentScreen = navigationStack[navigationStack.length - 1]
 
   // Auth screens
@@ -172,7 +177,7 @@ const App: React.FC = () => {
           <Text style={styles.detailTitle}>Clothes Detail</Text>
           <View style={{ width: 24 }} />
         </View>
-        <ClothesDetailScreen navigation={{ navigate: () => {} } as any} />
+        <ClothesDetailScreen navigation={{ navigate: () => { } } as any} />
       </SafeAreaView>
     )
   }
@@ -220,7 +225,7 @@ const App: React.FC = () => {
           <Text style={styles.detailTitle}>Checkout</Text>
           <View style={{ width: 24 }} />
         </View>
-        <CheckoutScreen onNavigatePayment={() => pushScreen("payment")} onBack={handleBackNavigation} />
+        <CheckoutScreen onNavigatePayment={() => pushScreen("payment")} onBack={handleBackNavigation} navigation={{ navigate: () => pushScreen("clothesDetail") }} />
       </SafeAreaView>
     )
   }

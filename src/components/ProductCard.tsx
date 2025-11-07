@@ -1,25 +1,24 @@
-// File: src/components/ProductCard.tsx
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import type React from "react"
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native"
+import { Ionicons } from "@expo/vector-icons"
 
 interface Product {
-  id: number;
-  name: string;
-  price: number;
-  rating: number;
-  image: string; // Tên file ảnh (giả định)
+  id: number
+  name: string
+  price: number
+  rating: number
+  image: any // Changed to accept Image source (require result)
 }
 
 interface ProductCardProps {
-  product: Product;
+  product: Product
+  onPress?: () => void // add onPress callback
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => (
-  <TouchableOpacity style={styles.card}>
-    {/*  */}
-    <View style={styles.imagePlaceholder} />
-    
+const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => (
+  <TouchableOpacity style={styles.card} onPress={onPress}>
+    <Image source={product.image} style={styles.productImage} />
+
     <Text style={styles.name}>{product.name}</Text>
     <View style={styles.footer}>
       <View style={styles.ratingContainer}>
@@ -29,46 +28,46 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => (
       <Text style={styles.price}>${product.price}</Text>
     </View>
   </TouchableOpacity>
-);
+)
 
 const styles = StyleSheet.create({
   card: {
     width: 150,
     marginRight: 15,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
-  imagePlaceholder: {
+  productImage: {
     height: 150,
-    width: '100%',
-    backgroundColor: '#f5f5f5', // Placeholder màu xám
+    width: "100%",
+    backgroundColor: "#f5f5f5",
     borderRadius: 8,
     marginBottom: 8,
-    // Logic hiển thị ảnh thực tế cần được thêm vào (dùng <Image>)
+    resizeMode: "cover",
   },
   name: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     marginBottom: 4,
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   ratingText: {
     fontSize: 12,
-    color: '#888',
+    color: "#888",
     marginLeft: 4,
   },
   price: {
     fontSize: 14,
-    fontWeight: '700',
-    color: '#4682B4', // Màu xanh dương cho giá
+    fontWeight: "700",
+    color: "#4682B4",
   },
-});
+})
 
-export default ProductCard;
+export default ProductCard

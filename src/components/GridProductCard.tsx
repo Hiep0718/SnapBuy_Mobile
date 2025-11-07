@@ -13,9 +13,10 @@ interface Product {
 interface GridProductCardProps {
   product: Product
   columnWidth: number
+  onPress?: () => void // add onPress callback
 }
 
-export const GridProductCard: React.FC<GridProductCardProps> = ({ product, columnWidth }) => {
+export const GridProductCard: React.FC<GridProductCardProps> = ({ product, columnWidth, onPress }) => {
   const renderRatingStars = (rating: number) => {
     const fullStars = Math.floor(rating)
     return (
@@ -35,7 +36,7 @@ export const GridProductCard: React.FC<GridProductCardProps> = ({ product, colum
   }
 
   return (
-    <TouchableOpacity style={[styles.gridProductCard, { width: columnWidth }]}>
+    <TouchableOpacity style={[styles.gridProductCard, { width: columnWidth }]} onPress={onPress}>
       <View style={styles.gridProductImageContainer}>
         <Image source={product.image} style={styles.gridProductImage} />
       </View>

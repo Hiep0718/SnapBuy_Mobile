@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, Dimensions } from "react-native"
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, Dimensions, Image } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { GridProductCard } from "../components/GridProductCard"
 
@@ -27,13 +27,19 @@ const columnWidth = (screenWidth - 48) / 2
 const SearchScreen: React.FC<{
   onShowFilter?: () => void
   onHideFilter?: () => void
-}> = ({ onShowFilter, onHideFilter }) => {
+  onViewProductDetail?: (product: any) => void
+}> = ({ onShowFilter, onHideFilter, onViewProductDetail }) => {
   const [searchText, setSearchText] = useState("")
   const [activeNav, setActiveNav] = useState("search")
   const [filterModalVisible, setFilterModalVisible] = useState(false)
 
   const renderGridProduct = (product: any) => (
-    <GridProductCard key={product.id} product={product} columnWidth={columnWidth} />
+    <GridProductCard
+      key={product.id}
+      product={product}
+      columnWidth={columnWidth}
+      onPress={() => onViewProductDetail?.(product)}
+    />
   )
 
   const renderSearchHistoryItem = (item: string, index: number) => (
@@ -106,14 +112,18 @@ const SearchScreen: React.FC<{
               <Text style={styles.sectionTitle}>Suggested for You</Text>
               <View style={styles.suggestedGrid}>
                 {[
-                  { title: "Electronics", icon: "phone-portrait-outline", color: "#FFE5CC" },
-                  { title: "Fashion", icon: "shirt-outline", color: "#CCE5FF" },
-                  { title: "Home", icon: "home-outline", color: "#E5CCFF" },
-                  { title: "Sports", icon: "football-outline", color: "#CCFFCC" },
+                  { title: "Electronics", image: require("../../assets/categories/electronics.jpg") },
+                  { title: "Fashion", image: require("../../assets/categories/clothing.jpg") },
+                  { title: "Home", image: require("../../assets/categories/home.jpg") },
+                  { title: "Fresh Fruits", image: require("../../assets/categories/fresh-fruits.jpg") },
+                  { title: "Beauty", image: require("../../assets/categories/beauty.jpg") },
                 ].map((item, index) => (
-                  <TouchableOpacity key={index} style={[styles.suggestedCard, { backgroundColor: item.color }]}>
-                    <Ionicons name={item.icon as any} size={32} color="#000" />
+                  <TouchableOpacity key={index} style={styles.suggestedCard}>
+                    <View style={styles.imageContainer}>
+                      <Image source={item.image} style={styles.categoryImage} resizeMode="cover" />
+                    </View>
                     <Text style={styles.suggestedCardText}>{item.title}</Text>
+                    <Ionicons name="chevron-forward" size={16} color="#9E9E9E" />
                   </TouchableOpacity>
                 ))}
               </View>
@@ -199,6 +209,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
     color: "#000",
+    marginBottom: 8,
   },
   clearText: {
     fontSize: 12,
@@ -248,23 +259,41 @@ const styles = StyleSheet.create({
 
   // Suggested Categories
   suggestedGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
     gap: 12,
   },
   suggestedCard: {
-    width: (screenWidth - 48) / 2,
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-    borderRadius: 12,
-    justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    gap: 14,
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  imageContainer: {
+    width: 52,
+    height: 52,
+    borderRadius: 12,
+    overflow: "hidden",
+    backgroundColor: "#f5f5f5",
+  },
+  categoryImage: {
+    width: "100%",
+    height: "100%",
   },
   suggestedCardText: {
-    fontSize: 13,
+    flex: 1,
+    fontSize: 15,
     fontWeight: "600",
     color: "#000",
+    letterSpacing: -0.2,
   },
 
   // Search Results

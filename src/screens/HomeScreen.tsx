@@ -1,241 +1,532 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Giả sử dùng Expo
-import CategoryItem from '../components/CategoryItem';
-import ProductCard from '../components/ProductCard';
+import type React from "react"
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, Image, Dimensions } from "react-native"
+import { Ionicons } from "@expo/vector-icons"
+import ProductCard from "../components/ProductCard"
+import { ASSET_PATHS } from "../constants/assetPaths"
 
-// --- (1) Dữ liệu giả định (Mock Data) -----------------------------------------------------
+const { width: screenWidth } = Dimensions.get("window")
 
+// --- Mock Data ---
 const categories = [
-  { name: 'Electronics', iconName: 'phone-portrait-outline' as const, color: '#9370DB' },
-  { name: 'Fashion', iconName: 'shirt-outline' as const, color: '#4169E1' },
-  { name: 'Beauty', iconName: 'color-palette-outline' as const, color: '#FF7F50' },
-  { name: 'Fresh Produce', iconName: 'leaf-outline' as const, color: '#DC143C' },
-];
+  { id: 1, name: "Electronics", image: require("../../assets/categories/electronics.jpg") },
+  { id: 2, name: "Fashion", image: require("../../assets/categories/clothing.jpg") },
+  { id: 3, name: "Beauty", image: require("../../assets/categories/beauty.jpg") },
+  { id: 4, name: "Fresh Fruits", image: require("../../assets/categories/fresh-fruits.jpg") },
+  { id: 5, name: "Home", image: require("../../assets/categories/home.jpg") },
+]
 
 const recommendedProducts = [
-  { id: 1, name: 'Shoes', price: 299, rating: 4.5, image: 'shoes' },
-  { id: 2, name: 'Tablet', price: 499, rating: 4.2, image: 'tablet' },
-  { id: 3, name: 'Pear', price: 4.99, rating: 4.7, image: 'pear' },
-];
+  { id: 1, name: "Tablet", price: 499, rating: 4.5, image: ASSET_PATHS.PRODUCTS_ELECTRONICS.TABLET },
+  { id: 2, name: "Laptop", price: 899, rating: 4.8, image: ASSET_PATHS.PRODUCTS_ELECTRONICS.LAPTOP },
+  { id: 3, name: "Pear", price: 4.99, rating: 4.7, image: ASSET_PATHS.PRODUCTS_FRUITS.PEAR },
+  { id: 4, name: "Apple", price: 3.99, rating: 4.6, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE },
+]
 
-// --- (2) Component ---------------------------------------------------------------------
+// --- Component ---
+const HomeScreen: React.FC<{
+  onViewProductDetail?: (product: any) => void
+  onNavigateToCart?: () => void
+  onNavigateToProfile?: () => void
+  onNavigateToSearch?: () => void
+}> = ({ onViewProductDetail, onNavigateToCart, onNavigateToProfile, onNavigateToSearch }) => {
+  
+  const renderCategoryItem = (category: any) => (
+    <TouchableOpacity key={category.id} style={styles.categoryItem}>
+      <View style={styles.categoryImageContainer}>
+        <Image source={category.image} style={styles.categoryImage} resizeMode="cover" />
+      </View>
+      <Text style={styles.categoryName}>{category.name}</Text>
+    </TouchableOpacity>
+  )
 
-const HomeScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
+      {/* Header */}
       <View style={styles.headerContainer}>
-        {/* Thanh Header: Back, Title, Cart, Profile */}
-        <TouchableOpacity>
-          <Ionicons name="arrow-back" size={24} color="#000" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>All Deals</Text>
-        <View style={styles.rightIcons}>
-          <Ionicons name="cart-outline" size={24} color="#000" style={styles.icon} />
-          {/*  */}
-          {/* Thực tế sẽ là 1 component Avatar */}
+        <View style={styles.headerLeft}>
+          <View style={styles.logoContainer}>
+            <Image 
+              source={require("../../assets/app-icons/logo.png")} 
+              style={styles.logoImage}
+              resizeMode="contain"
+            />
+          </View>
+          <View>
+            <Text style={styles.greetingText}>Hello 👋</Text>
+            <Text style={styles.userName}>Welcome back!</Text>
+          </View>
+        </View>
+        <View style={styles.headerRight}>
+          <TouchableOpacity style={styles.iconButton} onPress={onNavigateToCart}>
+            <Ionicons name="cart-outline" size={24} color="#000" />
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>3</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.avatarButton} onPress={onNavigateToProfile}>
+            <Image 
+              source={require("../../assets/avatars/user-3.jpg")} 
+              style={styles.avatar}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
         </View>
       </View>
 
-      <ScrollView style={styles.container}>
-        {/* Thanh Tìm kiếm */}
-        <View style={styles.searchBar}>
-          <Ionicons name="search-outline" size={20} color="#999" />
-          <Text style={styles.searchText}>Search for product</Text>
-          <TouchableOpacity style={styles.filterIcon}>
-             <Ionicons name="options-outline" size={24} color="#999" />
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        {/* Search Bar */}
+        <TouchableOpacity style={styles.searchBar} onPress={onNavigateToSearch}>
+          <Ionicons name="search-outline" size={20} color="#9E9E9E" />
+          <Text style={styles.searchText}>Search for products...</Text>
+          <View style={styles.filterButton}>
+            <Ionicons name="options-outline" size={20} color="#00BCD4" />
+          </View>
+        </TouchableOpacity>
+
+        {/* Categories Section */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Categories</Text>
+            <TouchableOpacity>
+              <Text style={styles.viewAllText}>View all</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.categoriesScroll}
+          >
+            {categories.map((category) => renderCategoryItem(category))}
+          </ScrollView>
+        </View>
+
+        {/* Main Promo Banner */}
+        <TouchableOpacity style={styles.mainBanner} activeOpacity={0.9}>
+          <Image 
+            source={require("../../assets/banners/electronics-promo.jpg")}
+            style={styles.mainBannerImage}
+            resizeMode="cover"
+          />
+          <View style={styles.mainBannerOverlay}>
+            <View style={styles.mainBannerContent}>
+              <Text style={styles.mainBannerSubtitle}>Special Offer</Text>
+              <Text style={styles.mainBannerTitle}>Electronics</Text>
+              <Text style={styles.mainBannerDiscount}>Up to 50% Off</Text>
+              <TouchableOpacity style={styles.shopNowButton}>
+                <Text style={styles.shopNowButtonText}>Shop Now</Text>
+                <Ionicons name="arrow-forward" size={16} color="#fff" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+
+        {/* Sub Banners */}
+        <View style={styles.subBannersContainer}>
+          <TouchableOpacity style={styles.subBanner} activeOpacity={0.9}>
+            <Image 
+              source={require("../../assets/banners/flash-sale.jpg")}
+              style={styles.subBannerImage}
+              resizeMode="cover"
+            />
+            <View style={styles.subBannerOverlay}>
+              <View style={styles.discountBadge}>
+                <Text style={styles.discountBadgeText}>30% OFF</Text>
+              </View>
+              <Text style={styles.subBannerTitle}>Flash Sale</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.subBanner} activeOpacity={0.9}>
+            <Image 
+              source={require("../../assets/banners/fruits-promo.jpg")}
+              style={styles.subBannerImage}
+              resizeMode="cover"
+            />
+            <View style={styles.subBannerOverlay}>
+              <View style={styles.discountBadge}>
+                <Text style={styles.discountBadgeText}>25% OFF</Text>
+              </View>
+              <Text style={styles.subBannerTitle}>Fresh Fruits</Text>
+            </View>
           </TouchableOpacity>
         </View>
 
-        {/* Danh mục (Categories) */}
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll}>
-          {categories.map((cat, index) => (
-            <CategoryItem key={index} name={cat.name} iconName={cat.iconName} color={cat.color} />
-          ))}
-        </ScrollView>
-        
-        {/* Banner Khuyến mãi Lớn (Shoes) */}
-        <View style={styles.mainBanner}>
-            <View style={styles.bannerLeft}>
-                <Text style={styles.bannerTitle}>Shoes</Text>
-                <Text style={styles.bannerSubtitle}>50% off</Text>
-                <TouchableOpacity style={styles.buyButton}>
-                    <Text style={styles.buyButtonText}>Buy now</Text>
-                </TouchableOpacity>
-            </View>
-            {/*  */}
-        </View>
-
-        {/* Banners Khuyến mãi Phụ */}
-        <View style={styles.subBannersContainer}>
-            <View style={styles.subBanner}>
-                <Text style={styles.discountBadge}>30%</Text>
-                {/*  */}
-            </View>
-            <View style={styles.subBanner}>
-                <Text style={styles.discountBadge}>30%</Text>
-                {/*  */}
-            </View>
-        </View>
-
-        {/* Sản phẩm Đề xuất */}
-        <View style={styles.recommendedHeader}>
-            <Text style={styles.recommendedTitle}>Recommended for you</Text>
+        {/* Recommended Products */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Recommended for You</Text>
             <TouchableOpacity>
-                <Text style={styles.viewAllText}>View all</Text>
+              <Text style={styles.viewAllText}>View all</Text>
             </TouchableOpacity>
+          </View>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.productsScroll}
+          >
+            {recommendedProducts.map((product) => (
+              <ProductCard 
+                key={product.id} 
+                product={product} 
+                onPress={() => onViewProductDetail?.(product)} 
+              />
+            ))}
+          </ScrollView>
         </View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.recommendedScroll}>
-          {recommendedProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </ScrollView>
-        
-        {/* Khoảng cách cuối để tránh tab bar */}
-        <View style={{ height: 100 }} /> 
+        {/* Featured Deals */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Featured Deals</Text>
+            <TouchableOpacity>
+              <Text style={styles.viewAllText}>View all</Text>
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.featuredDealsContainer}>
+            <TouchableOpacity style={styles.featuredDealCard} activeOpacity={0.9}>
+              <Image 
+                source={require("../../assets/banners/promo-banner-1.jpg")}
+                style={styles.featuredDealImage}
+                resizeMode="cover"
+              />
+              <View style={styles.featuredDealContent}>
+                <Text style={styles.featuredDealTitle}>Best Sellers</Text>
+                <Text style={styles.featuredDealSubtitle}>Top rated products</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.featuredDealCard} activeOpacity={0.9}>
+              <Image 
+                source={require("../../assets/banners/promo-banner-2.jpg")}
+                style={styles.featuredDealImage}
+                resizeMode="cover"
+              />
+              <View style={styles.featuredDealContent}>
+                <Text style={styles.featuredDealTitle}>New Arrivals</Text>
+                <Text style={styles.featuredDealSubtitle}>Just for you</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Bottom Spacing */}
+        <View style={{ height: 100 }} />
       </ScrollView>
-
-      {/* Lưu ý: Bottom Tab Bar thường được tạo trong file navigation/BottomTabNavigator.tsx */}
     </SafeAreaView>
-  );
-};
+  )
+}
 
-// --- (3) Styles ---------------------------------------------------------------------
-
+// --- Styles ---
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   container: {
-    paddingHorizontal: 16,
+    flex: 1,
   },
-  
+
   // Header
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f0f0f0",
   },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: '600',
+  headerLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
   },
-  rightIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  logoContainer: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
   },
-  icon: {
-    marginRight: 15,
+  logoImage: {
+    width: 38,
+    height: 38,
+  },
+  greetingText: {
+    fontSize: 12,
+    color: "#9E9E9E",
+    fontWeight: "500",
+  },
+  userName: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#000",
+  },
+  headerRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  iconButton: {
+    position: "relative",
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  badge: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    backgroundColor: "#F44336",
+    borderRadius: 10,
+    minWidth: 18,
+    height: 18,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 4,
+  },
+  badgeText: {
+    color: "#fff",
+    fontSize: 10,
+    fontWeight: "700",
+  },
+  avatarButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    overflow: "hidden",
+    borderWidth: 2,
+    borderColor: "#00BCD4",
+  },
+  avatar: {
+    width: "100%",
+    height: "100%",
   },
 
   // Search Bar
   searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    borderRadius: 10,
-    padding: 10,
-    marginVertical: 15,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    borderRadius: 24,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginHorizontal: 16,
+    marginVertical: 16,
+    gap: 10,
   },
   searchText: {
     flex: 1,
-    marginLeft: 10,
-    color: '#999',
+    fontSize: 14,
+    color: "#9E9E9E",
+    fontWeight: "500",
   },
-  filterIcon: {
-    paddingLeft: 10,
+  filterButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  // Section
+  section: {
+    marginTop: 24,
+    paddingHorizontal: 16,
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#000",
+  },
+  viewAllText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#00BCD4",
   },
 
   // Categories
-  categoryScroll: {
-    marginBottom: 20,
+  categoriesScroll: {
+    paddingRight: 16,
+    gap: 16,
+  },
+  categoryItem: {
+    alignItems: "center",
+    gap: 8,
+  },
+  categoryImageContainer: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    overflow: "hidden",
+    backgroundColor: "#f5f5f5",
+    borderWidth: 2,
+    borderColor: "#E0E0E0",
+  },
+  categoryImage: {
+    width: "100%",
+    height: "100%",
+  },
+  categoryName: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#333",
+    textAlign: "center",
+    maxWidth: 70,
   },
 
-  // Main Banner (Shoes)
+  // Main Banner
   mainBanner: {
-    backgroundColor: '#f5f5f5', // Màu nền banner
-    borderRadius: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    marginHorizontal: 16,
+    marginTop: 24,
+    height: 180,
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: "#000",
+  },
+  mainBannerImage: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+  },
+  mainBannerOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.3)",
+    justifyContent: "center",
     padding: 20,
-    marginBottom: 20,
-    // Cần thêm logic xử lý hình ảnh sản phẩm (Red Shoe)
   },
-  bannerLeft: {
-    justifyContent: 'center',
+  mainBannerContent: {
+    gap: 4,
   },
-  bannerTitle: {
+  mainBannerSubtitle: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#00BCD4",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+  },
+  mainBannerTitle: {
     fontSize: 32,
-    fontWeight: '900',
-    color: '#333',
+    fontWeight: "900",
+    color: "#fff",
+    marginBottom: 4,
   },
-  bannerSubtitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: 'red',
-    marginBottom: 10,
+  mainBannerDiscount: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#FFD700",
+    marginBottom: 12,
   },
-  buyButton: {
-    backgroundColor: '#000',
+  shopNowButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#00BCD4",
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 8,
-    width: 120,
-    alignItems: 'center',
+    borderRadius: 24,
+    alignSelf: "flex-start",
+    gap: 6,
   },
-  buyButtonText: {
-    color: '#fff',
-    fontWeight: '700',
+  shopNowButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "700",
   },
 
   // Sub Banners
   subBannersContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
+    flexDirection: "row",
+    paddingHorizontal: 16,
+    marginTop: 16,
+    gap: 12,
   },
   subBanner: {
-    width: '48%', // Chiếm khoảng 1/2 màn hình
-    backgroundColor: '#f5f5f5', 
-    borderRadius: 10,
-    height: 150, // Chiều cao cố định
-    justifyContent: 'flex-start',
-    padding: 10,
-    // Cần thêm logic xử lý hình ảnh nền (Handbag, Tablet)
+    flex: 1,
+    height: 140,
+    borderRadius: 16,
+    overflow: "hidden",
+    backgroundColor: "#000",
+  },
+  subBannerImage: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+  },
+  subBannerOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.25)",
+    padding: 12,
+    justifyContent: "space-between",
   },
   discountBadge: {
-    backgroundColor: 'red',
-    color: '#fff',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 4,
-    fontWeight: '700',
-    alignSelf: 'flex-start',
-    marginBottom: 5,
+    backgroundColor: "#F44336",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 6,
+    alignSelf: "flex-start",
+  },
+  discountBadgeText: {
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 0.5,
+  },
+  subBannerTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#fff",
   },
 
-  // Recommended Products
-  recommendedHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 15,
+  // Products Scroll
+  productsScroll: {
+    paddingRight: 16,
+    gap: 12,
   },
-  recommendedTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  viewAllText: {
-    color: '#888',
-    fontWeight: '600',
-  },
-  recommendedScroll: {
-    paddingBottom: 20,
-  }
-});
 
-export default HomeScreen;
+  // Featured Deals
+  featuredDealsContainer: {
+    gap: 12,
+  },
+  featuredDealCard: {
+    height: 100,
+    borderRadius: 16,
+    overflow: "hidden",
+    backgroundColor: "#f5f5f5",
+    marginBottom: 12,
+  },
+  featuredDealImage: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+  },
+  featuredDealContent: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+  },
+  featuredDealTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#fff",
+    marginBottom: 4,
+  },
+  featuredDealSubtitle: {
+    fontSize: 13,
+    fontWeight: "500",
+    color: "#E0E0E0",
+  },
+})
+
+export default HomeScreen

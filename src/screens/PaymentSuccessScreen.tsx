@@ -6,7 +6,9 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, ScrollView } fr
 import { Ionicons } from "@expo/vector-icons"
 import { RatingStars } from "../components/RatingStars"
 
-const PaymentSuccessScreen: React.FC = () => {
+const PaymentSuccessScreen: React.FC<{
+  onBackHome?: () => void
+}> = ({ onBackHome }) => {
   const [rating, setRating] = useState(0)
   const [activeNav, setActiveNav] = useState("home")
 
@@ -73,64 +75,13 @@ const PaymentSuccessScreen: React.FC = () => {
         </View>
 
         {/* Back to Home Button */}
-        <TouchableOpacity style={styles.backButton}>
+        <TouchableOpacity style={styles.backButton} onPress={onBackHome}>
           <Ionicons name="home" size={20} color="#fff" />
           <Text style={styles.backButtonText}>Back to Home</Text>
         </TouchableOpacity>
       </ScrollView>
 
-      {/* Bottom Tab Navigation */}
-      <View style={styles.bottomTabBar}>
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveNav("home")}>
-          <Ionicons
-            name={activeNav === "home" ? "home" : "home-outline"}
-            size={24}
-            color={activeNav === "home" ? "#00BCD4" : "#9E9E9E"}
-          />
-          <Text style={[styles.tabLabel, activeNav === "home" && styles.activeTabLabel]}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveNav("search")}>
-          <Ionicons
-            name={activeNav === "search" ? "search" : "search-outline"}
-            size={24}
-            color={activeNav === "search" ? "#00BCD4" : "#9E9E9E"}
-          />
-          <Text style={[styles.tabLabel, activeNav === "search" && styles.activeTabLabel]}>Search</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveNav("favorites")}>
-          <Ionicons
-            name={activeNav === "favorites" ? "heart" : "heart-outline"}
-            size={24}
-            color={activeNav === "favorites" ? "#00BCD4" : "#9E9E9E"}
-          />
-          <Text style={[styles.tabLabel, activeNav === "favorites" && styles.activeTabLabel]}>Favorites</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveNav("inbox")}>
-          <View style={styles.tabIconContainer}>
-            <Ionicons
-              name={activeNav === "inbox" ? "mail" : "mail-outline"}
-              size={24}
-              color={activeNav === "inbox" ? "#00BCD4" : "#9E9E9E"}
-            />
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>2</Text>
-            </View>
-          </View>
-          <Text style={[styles.tabLabel, activeNav === "inbox" && styles.activeTabLabel]}>Inbox</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabItem} onPress={() => setActiveNav("account")}>
-          <Ionicons
-            name={activeNav === "account" ? "person" : "person-outline"}
-            size={24}
-            color={activeNav === "account" ? "#00BCD4" : "#9E9E9E"}
-          />
-          <Text style={[styles.tabLabel, activeNav === "account" && styles.activeTabLabel]}>Account</Text>
-        </TouchableOpacity>
-      </View>
+      
     </SafeAreaView>
   )
 }

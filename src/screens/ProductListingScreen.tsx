@@ -39,7 +39,7 @@ const { width: screenWidth } = Dimensions.get("window")
 
 // --- Component ---
 const ProductListingScreen: React.FC<{
-  onViewProductDetail?: () => void
+  onViewProductDetail?: (product: any) => void
 }> = ({ onViewProductDetail }) => {
   const [carouselIndex, setCarouselIndex] = useState(0)
   const [activeTab, setActiveTab] = useState("home")
@@ -64,7 +64,7 @@ const ProductListingScreen: React.FC<{
   }
 
   const renderGridProduct = (product: any) => (
-    <TouchableOpacity style={styles.gridProductCard} onPress={onViewProductDetail}>
+    <TouchableOpacity style={styles.gridProductCard} onPress={() => onViewProductDetail?.(product)}>
       <View style={styles.productImageContainer}>
         <Image source={require("../../assets/icon.png")} style={styles.productImage} />
       </View>
@@ -80,7 +80,11 @@ const ProductListingScreen: React.FC<{
   )
 
   const renderRelevantProduct = (product: any) => (
-    <TouchableOpacity style={styles.relevantProductCard} key={product.id} onPress={onViewProductDetail}>
+    <TouchableOpacity
+      style={styles.relevantProductCard}
+      key={product.id}
+      onPress={() => onViewProductDetail?.(product)}
+    >
       <View style={styles.relevantImageContainer}>
         <Image source={require("../../assets/icon.png")} style={styles.relevantImage} />
       </View>
@@ -173,6 +177,7 @@ const ProductListingScreen: React.FC<{
         <View style={{ height: 100 }} />
       </ScrollView>
 
+      
     </SafeAreaView>
   )
 }

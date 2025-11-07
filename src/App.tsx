@@ -1,7 +1,9 @@
+"use client"
+
 import type React from "react"
 import { useState } from "react"
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context"
 
 import { Ionicons } from "@expo/vector-icons"
 
@@ -19,6 +21,7 @@ import CheckoutScreen from "./screens/CheckoutScreen"
 import PaymentScreen from "./screens/PaymentScreen"
 import PaymentSuccessScreen from "./screens/PaymentSuccessScreen"
 import ReviewListScreen from "./screens/ReviewListScreen"
+import FeedbackScreen from "./screens/FeedbackScreen"
 
 interface TabScreenProps {
   name: string
@@ -30,8 +33,9 @@ interface TabScreenProps {
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState("home")
   const [currentAuthScreen, setCurrentAuthScreen] = useState<"login" | "register" | null>(null)
-  const [currentDetailScreen, setCurrentDetailScreen] = useState<string | null>(null)
+  const [navigationStack, setNavigationStack] = useState<string[]>([])
   const [showFilterModal, setShowFilterModal] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<any>(null)
 
   const tabScreens: TabScreenProps[] = [
     {
@@ -66,6 +70,7 @@ const App: React.FC = () => {
     },
   ]
 
+  // Auth handlers
   const handleNavigateToLogin = () => {
     setCurrentAuthScreen("login")
   }
@@ -79,30 +84,28 @@ const App: React.FC = () => {
     setActiveTab("home")
   }
 
-  const handleViewProductDetail = () => {
-    setCurrentDetailScreen("productDetail")
+  // Navigation stack handlers
+  const handleProductSelected = (product: any) => {
+    setSelectedProduct(product)
+    setNavigationStack([...navigationStack, "productDetail"])
   }
 
-  const handleViewCheckout = () => {
-    setCurrentDetailScreen("checkout")
+  const handleBackNavigation = () => {
+    setNavigationStack(navigationStack.slice(0, -1))
   }
 
-  const handleViewPayment = () => {
-    setCurrentDetailScreen("payment")
+  const pushScreen = (screenName: string) => {
+    setNavigationStack([...navigationStack, screenName])
   }
 
-  const handleViewPaymentSuccess = () => {
-    setCurrentDetailScreen("paymentSuccess")
+  const handlePaymentSuccessToHome = () => {
+    setNavigationStack([])
+    setActiveTab("home")
   }
 
-  const handleViewReviews = () => {
-    setCurrentDetailScreen("reviews")
-  }
+  const currentScreen = navigationStack[navigationStack.length - 1]
 
-  const handleBackFromDetail = () => {
-    setCurrentDetailScreen(null)
-  }
-
+  // Auth screens
   if (currentAuthScreen === "login") {
     return (
       <SafeAreaView style={styles.authContainer}>
@@ -119,56 +122,82 @@ const App: React.FC = () => {
     )
   }
 
-  if (currentDetailScreen === "productDetail") {
+  // Detail screens stack
+  if (currentScreen === "productDetail") {
     return (
       <SafeAreaView style={styles.screenOverlay}>
         <View style={styles.detailHeader}>
-          <TouchableOpacity onPress={handleBackFromDetail}>
+          <TouchableOpacity onPress={handleBackNavigation}>
             <Ionicons name="arrow-back" size={24} color="#000" />
           </TouchableOpacity>
           <Text style={styles.detailTitle}>Product Detail</Text>
           <View style={{ width: 24 }} />
         </View>
-        <ProductDetailScreen onNavigateCheckout={handleViewCheckout} onNavigateReviews={handleViewReviews} />
+        <ProductDetailScreen
+          onNavigateCheckout={() => pushScreen("checkout")}
+          onNavigateReviews={() => pushScreen("reviews")}
+        />
       </SafeAreaView>
     )
   }
 
-  if (currentDetailScreen === "checkout") {
-    return (
-      <SafeAreaView style={styles.screenOverlay}>
-        <CheckoutScreen onNavigatePayment={handleViewPayment} onBack={handleBackFromDetail} />
-      </SafeAreaView>
-    )
-  }
-
-  if (currentDetailScreen === "payment") {
-    return (
-      <SafeAreaView style={styles.screenOverlay}>
-        <PaymentScreen onPaymentSuccess={handleViewPaymentSuccess} onBack={handleBackFromDetail} />
-      </SafeAreaView>
-    )
-  }
-
-  if (currentDetailScreen === "paymentSuccess") {
-    return (
-      <SafeAreaView style={styles.screenOverlay}>
-        <PaymentSuccessScreen onBackHome={handleBackFromDetail} />
-      </SafeAreaView>
-    )
-  }
-
-  if (currentDetailScreen === "reviews") {
+  if (currentScreen === "checkout") {
     return (
       <SafeAreaView style={styles.screenOverlay}>
         <View style={styles.detailHeader}>
-          <TouchableOpacity onPress={handleBackFromDetail}>
+          <TouchableOpacity onPress={handleBackNavigation}>
+            <Ionicons name="arrow-back" size={24} color="#000" />
+          </TouchableOpacity>
+          <Text style={styles.detailTitle}>Checkout</Text>
+          <View style={{ width: 24 }} />
+        </View>
+        <CheckoutScreen onNavigatePayment={() => pushScreen("payment")} onBack={handleBackNavigation} />
+      </SafeAreaView>
+    )
+  }
+
+  if (currentScreen === "payment") {
+    return (
+      <SafeAreaView style={styles.screenOverlay}>
+        <PaymentScreen onPaymentSuccess={() => pushScreen("paymentSuccess")} onBack={handleBackNavigation} />
+      </SafeAreaView>
+    )
+  }
+
+  if (currentScreen === "paymentSuccess") {
+    return (
+      <SafeAreaView style={styles.screenOverlay}>
+        <PaymentSuccessScreen onBackHome={handlePaymentSuccessToHome} />
+      </SafeAreaView>
+    )
+  }
+
+  if (currentScreen === "reviews") {
+    return (
+      <SafeAreaView style={styles.screenOverlay}>
+        <View style={styles.detailHeader}>
+          <TouchableOpacity onPress={handleBackNavigation}>
             <Ionicons name="arrow-back" size={24} color="#000" />
           </TouchableOpacity>
           <Text style={styles.detailTitle}>Reviews</Text>
           <View style={{ width: 24 }} />
         </View>
-        <ReviewListScreen />
+        <ReviewListScreen onNavigateFeedback={() => pushScreen("feedback")} />
+      </SafeAreaView>
+    )
+  }
+
+  if (currentScreen === "feedback") {
+    return (
+      <SafeAreaView style={styles.screenOverlay}>
+        <View style={styles.detailHeader}>
+          <TouchableOpacity onPress={handleBackNavigation}>
+            <Ionicons name="arrow-back" size={24} color="#000" />
+          </TouchableOpacity>
+          <Text style={styles.detailTitle}>Write a Review</Text>
+          <View style={{ width: 24 }} />
+        </View>
+        <FeedbackScreen onNavigateReviews={handleBackNavigation} />
       </SafeAreaView>
     )
   }
@@ -188,7 +217,7 @@ const App: React.FC = () => {
     )
   }
 
-  // Main app navigation with tab bar
+  // Main tab navigation
   const activeScreen = tabScreens.find((screen) => screen.name === activeTab)
   const ActiveComponent = activeScreen?.component || HomeScreen
 
@@ -198,7 +227,7 @@ const App: React.FC = () => {
         <ActiveComponent
           onNavigateLogin={handleNavigateToLogin}
           onNavigateRegister={handleNavigateToRegister}
-          onViewProductDetail={handleViewProductDetail}
+          onViewProductDetail={handleProductSelected}
           onShowFilter={() => setShowFilterModal(true)}
           onHideFilter={() => setShowFilterModal(false)}
         />
@@ -250,7 +279,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#000",
   },
-    bottomTabBar: {
+  bottomTabBar: {
     flexDirection: "row",
     backgroundColor: "#fff",
     borderTopWidth: 1,

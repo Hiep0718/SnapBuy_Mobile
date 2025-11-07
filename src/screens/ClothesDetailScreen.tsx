@@ -29,9 +29,12 @@ type ClothesDetailScreenNavProp = StackNavigationProp<
 // 🧩 Props của màn hình
 type Props = {
     navigation: ClothesDetailScreenNavProp;
+    onAddToCart: (item: any) => void;
+    onNavigateFeedback?: () => void;
+    onNavigateReviews?: () => void;
 };
 
-export default function ClothesDetailScreen({ navigation }: Props) {
+export default function ClothesDetailScreen({ navigation, onAddToCart, onNavigateFeedback, onNavigateReviews }: Props) {
     const product = {
         id: "1",
         name: "Yellow Hoodie",
@@ -71,15 +74,28 @@ export default function ClothesDetailScreen({ navigation }: Props) {
                 setQuantity={setQuantity}
                 price={product.price}
             />
-            <ProductReviews />
+            <ProductReviews onNavigateReviews={onNavigateReviews} />
 
-            <TouchableOpacity style={styles.buyButton}>
+            <TouchableOpacity
+                style={styles.buyButton}
+                onPress={() =>
+                    onAddToCart({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        quantity: quantity,
+                        color: selectedColor,
+                        size: selectedSize,
+                        image: product.images[0],
+                    })
+                }
+            >
                 <Text style={styles.buyText}>🛒 Add to Cart</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
                 style={styles.feedbackButton}
-                onPress={() => navigation.navigate("Feedback")}
+                onPress={() => onNavigateFeedback?.()}
             >
                 <Text style={styles.feedbackText}>💬 Gửi Feedback</Text>
             </TouchableOpacity>

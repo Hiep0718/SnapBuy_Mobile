@@ -36,6 +36,7 @@ interface TabScreenProps {
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState("home")
+  const [cart, setCart] = useState<any[]>([])
   const [currentAuthScreen, setCurrentAuthScreen] = useState<"login" | "register" | null>(null)
   const [navigationStack, setNavigationStack] = useState<string[]>([])
   const [showFilterModal, setShowFilterModal] = useState(false)
@@ -77,6 +78,7 @@ const App: React.FC = () => {
   ]
 
   // Auth handlers
+
   const handleNavigateToLogin = () => {
     setCurrentAuthScreen("login")
   }
@@ -127,6 +129,25 @@ const App: React.FC = () => {
     setActiveTab("search")
   }
 
+  const handleGoToClothesDetail = () => {
+    setNavigationStack([...navigationStack, "clothesDetail"]);
+  };
+
+  const handleAddToCart = (item: any) => {
+    const existing = cart.find(c => c.id === item.id);
+
+    let updatedCart;
+    if (existing) {
+      updatedCart = cart.map(c =>
+        c.id === item.id ? { ...c, quantity: c.quantity + item.quantity } : c
+      );
+    } else {
+      updatedCart = [...cart, { ...item }];
+    }
+
+    setCart(updatedCart);
+    setNavigationStack(["checkout"]);
+  };
   const currentScreen = navigationStack[navigationStack.length - 1]
 
   // Auth screens
@@ -172,7 +193,12 @@ const App: React.FC = () => {
           <Text style={styles.detailTitle}>Clothes Detail</Text>
           <View style={{ width: 24 }} />
         </View>
-        <ClothesDetailScreen navigation={{ navigate: () => {} } as any} />
+        <ClothesDetailScreen
+          navigation={{ navigate: () => { } } as any}
+          onAddToCart={handleAddToCart}
+          onNavigateFeedback={() => pushScreen("feedback")}
+          onNavigateReviews={() => pushScreen("reviews")}
+        />
       </SafeAreaView>
     )
   }
@@ -220,7 +246,11 @@ const App: React.FC = () => {
           <Text style={styles.detailTitle}>Checkout</Text>
           <View style={{ width: 24 }} />
         </View>
-        <CheckoutScreen onNavigatePayment={() => pushScreen("payment")} onBack={handleBackNavigation} />
+        <CheckoutScreen
+          onNavigatePayment={() => pushScreen("payment")}
+          onBack={handleBackNavigation}
+          navigation={{ navigate: () => pushScreen("clothesDetail") }}
+          cart={cart} />
       </SafeAreaView>
     )
   }

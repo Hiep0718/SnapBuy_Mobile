@@ -11,7 +11,8 @@ export const ProductDetailScreen: React.FC<{
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Ảnh sản phẩm */}
-      <Image source={{ uri: "https://images.unsplash.com/photo-1518444027026-7ec5d140974f" }} style={styles.image} />
+      <Image source={require("../../assets/products/electronics/laptop.jpg")} style={styles.image} />
+
 
       {/* Giá + Đánh giá */}
       <View style={styles.rowBetween}>

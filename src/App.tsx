@@ -193,7 +193,12 @@ const App: React.FC = () => {
           <Text style={styles.detailTitle}>Clothes Detail</Text>
           <View style={{ width: 24 }} />
         </View>
-        <ClothesDetailScreen navigation={{ navigate: () => { } } as any} onAddToCart={handleAddToCart} />
+        <ClothesDetailScreen
+          navigation={{ navigate: () => { } } as any}
+          onAddToCart={handleAddToCart}
+          onNavigateFeedback={() => pushScreen("feedback")}
+          onNavigateReviews={() => pushScreen("reviews")}
+        />
       </SafeAreaView>
     )
   }

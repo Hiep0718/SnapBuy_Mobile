@@ -3,7 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 // import Icon from "react-native-vector-icons/Ionicons"; // nếu đã cài icon lib
 import { RatingStars } from "../RatingStars"; // hoặc file bạn đang dùng
 
-export default function ProductReviews() {
+type ProductReviewsProps = {
+    onNavigateReviews?: () => void;
+};
+
+export default function ProductReviews({ onNavigateReviews }: ProductReviewsProps) {
     const reviews = [
         { id: 1, name: "Lina M.", date: "2 days ago", comment: "Áo đẹp, chất vải tốt!" },
         { id: 2, name: "Thomas D.", date: "5 days ago", comment: "Form chuẩn, giao hàng nhanh." },
@@ -14,7 +18,7 @@ export default function ProductReviews() {
             {/* Tiêu đề + mũi tên */}
             <View style={styles.header}>
                 <Text style={styles.title}>Reviews</Text>
-                <TouchableOpacity style={styles.linkButton}>
+                <TouchableOpacity style={styles.linkButton} onPress={() => onNavigateReviews?.()}>
                     <Text style={styles.linkText}>See all </Text>
                     {/* Nếu có icon lib thì dùng: <Icon name="chevron-forward" size={18} color="#00BFFF" /> */}
                     <Text style={{ color: "#00BFFF", fontSize: 16 }}>➜</Text>

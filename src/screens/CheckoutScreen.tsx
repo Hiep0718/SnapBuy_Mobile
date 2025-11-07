@@ -18,8 +18,9 @@ const CheckoutScreen: React.FC<{
   onNavigatePayment?: () => void
   onBack?: () => void
   navigation?: any
-}> = ({ onNavigatePayment, onBack, navigation }) => {
-  const [products, setProducts] = useState<Product[]>([
+  cart?: any[]
+}> = ({ onNavigatePayment, onBack, navigation, cart }) => {
+  const products = cart && cart.length > 0 ? cart : [
     {
       id: "1",
       name: "Headphone",
@@ -36,23 +37,7 @@ const CheckoutScreen: React.FC<{
       quantity: 1,
       image: { uri: "https://via.placeholder.com/100?text=Headphone2" },
     },
-    {
-      id: "3",
-      name: "Smartphone",
-      description: "Consequat ex eu",
-      price: 1000,
-      quantity: 1,
-      image: { uri: "https://via.placeholder.com/100?text=Phone1" },
-    },
-    {
-      id: "4",
-      name: "Smartphone",
-      description: "Consequat ex eu",
-      price: 1000,
-      quantity: 1,
-      image: { uri: "https://via.placeholder.com/100?text=Phone2" },
-    },
-  ])
+  ]
 
   const [voucher, setVoucher] = useState("")
 

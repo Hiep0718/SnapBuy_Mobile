@@ -29,9 +29,10 @@ type ClothesDetailScreenNavProp = StackNavigationProp<
 // 🧩 Props của màn hình
 type Props = {
     navigation: ClothesDetailScreenNavProp;
+    onAddToCart: (item: any) => void;
 };
 
-export default function ClothesDetailScreen({ navigation }: Props) {
+export default function ClothesDetailScreen({ navigation, onAddToCart }: Props) {
     const product = {
         id: "1",
         name: "Yellow Hoodie",
@@ -73,7 +74,20 @@ export default function ClothesDetailScreen({ navigation }: Props) {
             />
             <ProductReviews />
 
-            <TouchableOpacity style={styles.buyButton}>
+            <TouchableOpacity
+                style={styles.buyButton}
+                onPress={() =>
+                    onAddToCart({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        quantity: quantity,
+                        color: selectedColor,
+                        size: selectedSize,
+                        image: product.images[0],
+                    })
+                }
+            >
                 <Text style={styles.buyText}>🛒 Add to Cart</Text>
             </TouchableOpacity>
 

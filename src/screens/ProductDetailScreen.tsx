@@ -83,6 +83,12 @@ export const ProductDetailScreen: React.FC<{
             rating={4.5}
             image={require("../../assets/products/electronics/smartphone-3.jpg")}
           />
+          <ProductCard
+            name="Headphone"
+            price={99}
+            rating={4.5}
+            image={require("../../assets/products/electronics/smartphone-4.jpg")}
+          />
         </ScrollView>
       </View>
 

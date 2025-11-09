@@ -16,7 +16,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.snapbuy.app",
       "build": {
-        "channels": ["production"]
+        "channels": [
+          "production"
+        ]
       }
     },
     "android": {
@@ -33,6 +35,13 @@
     },
     "description": "SnapBuy - Your favorite online shopping app",
     "primaryColor": "#5B5FFF",
-    "assetBundlePatterns": ["**/*"]
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8fad8245-e072-4643-a33f-3c21fbb2428e"
+      }
+    }
   }
 }

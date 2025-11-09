@@ -45,7 +45,6 @@ const CheckoutScreen: React.FC<{
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Checkout</Text>
 
       <FlatList
         data={products}
@@ -162,7 +161,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   nextButton: {
-    backgroundColor: "#00c2ff",
+    backgroundColor: "#5B5FFF",
     borderRadius: 10,
     paddingVertical: 14,
     marginTop: 30,

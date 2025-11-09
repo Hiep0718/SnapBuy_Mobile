@@ -23,7 +23,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ onNavigateLogin, onNaviga
           {/* Empty State Illustration */}
           <View style={styles.illustrationContainer}>
             <View style={styles.illustrationCircle}>
-              <Ionicons name="person-outline" size={80} color="#00BCD4" />
+              <Ionicons name="person-outline" size={80} color="#5B5FFF" />
             </View>
           </View>
 
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     paddingVertical: 14,
-    backgroundColor: "#00BCD4",
+    backgroundColor: "#5B5FFF",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     borderColor: "#E0E0E0",
   },
   registerButtonText: {
-    color: "#00BCD4",
+    color: "#5B5FFF",
     fontSize: 16,
     fontWeight: "700",
   },

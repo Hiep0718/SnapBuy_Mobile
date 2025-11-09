@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { useState } from "react"
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native"
@@ -7,6 +5,9 @@ import { SafeAreaView } from "react-native-safe-area-context"
 
 import { Ionicons } from "@expo/vector-icons"
 import { SNAPBUY_COLORS } from "./constants/theme"
+
+// Import animated bottom tab bar
+import { AnimatedBottomTabBar } from "./constants/AnimatedBottomTabBar"
 
 // Import all screens
 import HomeScreen from "./screens/HomeScreen"
@@ -78,7 +79,6 @@ const App: React.FC = () => {
   ]
 
   // Auth handlers
-
   const handleNavigateToLogin = () => {
     setCurrentAuthScreen("login")
   }
@@ -130,24 +130,25 @@ const App: React.FC = () => {
   }
 
   const handleGoToClothesDetail = () => {
-    setNavigationStack([...navigationStack, "clothesDetail"]);
-  };
+    setNavigationStack([...navigationStack, "clothesDetail"])
+  }
 
   const handleAddToCart = (item: any) => {
-    const existing = cart.find(c => c.id === item.id);
+    const existing = cart.find(c => c.id === item.id)
 
-    let updatedCart;
+    let updatedCart
     if (existing) {
       updatedCart = cart.map(c =>
         c.id === item.id ? { ...c, quantity: c.quantity + item.quantity } : c
-      );
+      )
     } else {
-      updatedCart = [...cart, { ...item }];
+      updatedCart = [...cart, { ...item }]
     }
 
-    setCart(updatedCart);
-    setNavigationStack(["checkout"]);
-  };
+    setCart(updatedCart)
+    setNavigationStack(["checkout"])
+  }
+
   const currentScreen = navigationStack[navigationStack.length - 1]
 
   // Auth screens
@@ -334,18 +335,12 @@ const App: React.FC = () => {
         />
       </View>
 
-      <View style={styles.bottomTabBar}>
-        {tabScreens.map((screen) => (
-          <TouchableOpacity key={screen.name} style={styles.tabItem} onPress={() => setActiveTab(screen.name)}>
-            <Ionicons
-              name={activeTab === screen.name ? screen.icon : `${screen.icon}-outline`}
-              size={24}
-              color={activeTab === screen.name ? SNAPBUY_COLORS.primary : SNAPBUY_COLORS.text.tertiary}
-            />
-            <Text style={[styles.tabLabel, activeTab === screen.name && styles.activeTabLabel]}>{screen.label}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
+      {/* Animated Bottom Tab Bar - Thay thế phần cũ */}
+      <AnimatedBottomTabBar
+        activeTab={activeTab}
+        tabScreens={tabScreens}
+        onTabPress={setActiveTab}
+      />
     </SafeAreaView>
   )
 }
@@ -379,31 +374,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     color: SNAPBUY_COLORS.text.primary,
-  },
-  bottomTabBar: {
-    flexDirection: "row",
-    backgroundColor: SNAPBUY_COLORS.surface,
-    borderTopWidth: 1,
-    borderTopColor: SNAPBUY_COLORS.border,
-    paddingVertical: 8,
-    paddingBottom: 12,
-  },
-  tabItem: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 8,
-    gap: 4,
-  },
-  tabLabel: {
-    fontSize: 11,
-    fontWeight: "600",
-    color: SNAPBUY_COLORS.text.tertiary,
-    marginTop: 2,
-  },
-  activeTabLabel: {
-    color: SNAPBUY_COLORS.primary,
-    fontWeight: "700",
   },
 })
 

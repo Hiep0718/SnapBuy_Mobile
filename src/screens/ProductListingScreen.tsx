@@ -1,7 +1,5 @@
-"use client"
-
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   View,
   Text,
@@ -13,414 +11,10 @@ import {
   FlatList,
   Dimensions,
   TextInput,
+  ActivityIndicator,
 } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
 import { ASSET_PATHS } from "../constants/assetPaths"
-
-const allProducts = [
-  // Electronics
-  {
-    id: 1,
-    name: "Smartphone Pro",
-    price: 899,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.SMARTPHONE_1,
-    category: "electronics",
-  },
-  {
-    id: 2,
-    name: "Smartphone Max",
-    price: 1099,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.SMARTPHONE_2,
-    category: "electronics",
-  },
-  {
-    id: 3,
-    name: "Smartphone Plus",
-    price: 799,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.SMARTPHONE_3,
-    category: "electronics",
-  },
-  {
-    id: 4,
-    name: "Smartphone Lite",
-    price: 599,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.SMARTPHONE_4,
-    category: "electronics",
-  },
-  {
-    id: 5,
-    name: "Laptop Pro 15",
-    price: 1999,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.LAPTOP,
-    category: "electronics",
-  },
-  {
-    id: 6,
-    name: "Tablet Air",
-    price: 599,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.TABLET,
-    category: "electronics",
-  },
-  {
-    id: 7,
-    name: "Wireless Earbuds",
-    price: 299,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 8,
-    name: "USB-C Cable",
-    price: 49,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 16,
-    name: "Bluetooth Speaker",
-    price: 149,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 17,
-    name: "Wireless Mouse",
-    price: 79,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 18,
-    name: "USB Hub 7-Port",
-    price: 59,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 19,
-    name: "HDMI Cable 2M",
-    price: 29,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 20,
-    name: "Screen Protector",
-    price: 19,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 21,
-    name: "Phone Case Premium",
-    price: 39,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 22,
-    name: "Laptop Stand",
-    price: 89,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 23,
-    name: "External SSD 1TB",
-    price: 149,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 24,
-    name: "USB-C Hub 8-in-1",
-    price: 99,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 25,
-    name: "Monitor 27 inch 4K",
-    price: 599,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.LAPTOP,
-    category: "electronics",
-  },
-  {
-    id: 26,
-    name: "Keyboard Mechanical RGB",
-    price: 179,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 27,
-    name: "Gaming Headset Pro",
-    price: 249,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 28,
-    name: "Webcam 1080P HD",
-    price: 129,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 29,
-    name: "Power Bank 30000mAh",
-    price: 99,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 30,
-    name: "Phone Charger Fast",
-    price: 49,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 31,
-    name: "Smart Watch Ultra",
-    price: 399,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 32,
-    name: "Portable Projector",
-    price: 799,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 33,
-    name: "Camera Tripod",
-    price: 79,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 34,
-    name: "Ring Light LED",
-    price: 69,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 35,
-    name: "Microphone Studio",
-    price: 129,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 36,
-    name: "Drone 4K",
-    price: 1299,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 37,
-    name: "Camera DSLR Professional",
-    price: 1899,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 38,
-    name: "Lens 50mm Prime",
-    price: 299,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 39,
-    name: "Memory Card 256GB",
-    price: 89,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-  {
-    id: 40,
-    name: "Gaming Console PS5",
-    price: 499,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES,
-    category: "electronics",
-  },
-
-  // Fruits
-  { id: 9, name: "Fresh Apple", price: 5, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE, category: "fruits" },
-  { id: 10, name: "Organic Pear", price: 6, rating: 4, image: ASSET_PATHS.PRODUCTS_FRUITS.PEAR, category: "fruits" },
-  { id: 11, name: "Ripe Avocado", price: 8, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.AVOCADO, category: "fruits" },
-  { id: 12, name: "Sweet Cherry", price: 12, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.CHERRY, category: "fruits" },
-  { id: 13, name: "Juicy Orange", price: 7, rating: 4, image: ASSET_PATHS.PRODUCTS_FRUITS.ORANGE, category: "fruits" },
-  { id: 14, name: "Peach Delight", price: 9, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.PEACH, category: "fruits" },
-  {
-    id: 15,
-    name: "Pomegranate",
-    price: 10,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.POMEGRANATE,
-    category: "fruits",
-  },
-  { id: 41, name: "Banana Bunch", price: 4, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE, category: "fruits" },
-  { id: 42, name: "Mango Sweet", price: 8, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.ORANGE, category: "fruits" },
-  {
-    id: 43,
-    name: "Pineapple Fresh",
-    price: 7,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.PEACH,
-    category: "fruits",
-  },
-  {
-    id: 44,
-    name: "Watermelon Large",
-    price: 15,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE,
-    category: "fruits",
-  },
-  { id: 45, name: "Papaya Ripe", price: 6, rating: 4, image: ASSET_PATHS.PRODUCTS_FRUITS.ORANGE, category: "fruits" },
-  {
-    id: 46,
-    name: "Blueberry Fresh",
-    price: 12,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.CHERRY,
-    category: "fruits",
-  },
-  {
-    id: 47,
-    name: "Strawberry Pack",
-    price: 10,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.CHERRY,
-    category: "fruits",
-  },
-  {
-    id: 48,
-    name: "Raspberry Organic",
-    price: 11,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.CHERRY,
-    category: "fruits",
-  },
-  { id: 49, name: "Lemon Fresh", price: 5, rating: 4, image: ASSET_PATHS.PRODUCTS_FRUITS.ORANGE, category: "fruits" },
-  { id: 50, name: "Lime Organic", price: 6, rating: 4, image: ASSET_PATHS.PRODUCTS_FRUITS.ORANGE, category: "fruits" },
-  {
-    id: 51,
-    name: "Grapefruit Pink",
-    price: 8,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE,
-    category: "fruits",
-  },
-  {
-    id: 52,
-    name: "Kiwi Fruit Fresh",
-    price: 7,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.PEACH,
-    category: "fruits",
-  },
-  { id: 53, name: "Coconut Young", price: 9, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE, category: "fruits" },
-  { id: 54, name: "Dragon Fruit", price: 10, rating: 4, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE, category: "fruits" },
-  { id: 55, name: "Passion Fruit", price: 9, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.PEACH, category: "fruits" },
-  {
-    id: 56,
-    name: "Durian Premium",
-    price: 25,
-    rating: 4,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE,
-    category: "fruits",
-  },
-  { id: 57, name: "Guava Sweet", price: 6, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE, category: "fruits" },
-  { id: 58, name: "Lychee Fresh", price: 14, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.CHERRY, category: "fruits" },
-  { id: 59, name: "Rambutan Red", price: 12, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.CHERRY, category: "fruits" },
-  {
-    id: 60,
-    name: "Mangostan Purple",
-    price: 16,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE,
-    category: "fruits",
-  },
-  { id: 61, name: "Fig Dried", price: 13, rating: 4, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE, category: "fruits" },
-  { id: 62, name: "Date Palm", price: 11, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE, category: "fruits" },
-  {
-    id: 63,
-    name: "Grape Red Seedless",
-    price: 9,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE,
-    category: "fruits",
-  },
-  { id: 64, name: "Plum Fresh", price: 8, rating: 4, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE, category: "fruits" },
-  {
-    id: 65,
-    name: "Nectarine Sweet",
-    price: 10,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.PEACH,
-    category: "fruits",
-  },
-  { id: 66, name: "Apricot Fresh", price: 9, rating: 4, image: ASSET_PATHS.PRODUCTS_FRUITS.PEACH, category: "fruits" },
-  {
-    id: 67,
-    name: "Tangerine Pack",
-    price: 7,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.ORANGE,
-    category: "fruits",
-  },
-  {
-    id: 68,
-    name: "Clementine Sweet",
-    price: 8,
-    rating: 5,
-    image: ASSET_PATHS.PRODUCTS_FRUITS.ORANGE,
-    category: "fruits",
-  },
-  { id: 69, name: "Pomelo Fresh", price: 12, rating: 5, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE, category: "fruits" },
-  { id: 70, name: "Tamarind Pod", price: 10, rating: 4, image: ASSET_PATHS.PRODUCTS_FRUITS.APPLE, category: "fruits" },
-]
 
 const sortOptions = [
   { id: "best-sales", label: "Best Sales" },
@@ -440,22 +34,50 @@ const ProductListingScreen: React.FC<{
   const [activeSort, setActiveSort] = useState("best-sales")
   const [activeNav, setActiveNav] = useState("home")
   const [displayMode, setDisplayMode] = useState<"grid" | "list">("grid")
+  const [allProducts, setAllProducts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Fetch products from MockAPI
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const response = await fetch('https://6910b9337686c0e9c20b7f71.mockapi.io/Products')
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch products')
+        }
+        
+        const data = await response.json()
+        setAllProducts(data)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred')
+        console.error('Error fetching products:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProducts()
+  }, [])
 
   const getSortedProducts = () => {
     const filteredProducts = allProducts.filter(
       (product) =>
-        product.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchText.toLowerCase()),
+        product.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+        product.category?.toLowerCase().includes(searchText.toLowerCase()),
     )
 
     const products = [...filteredProducts]
     switch (activeSort) {
       case "price-low":
-        return products.sort((a, b) => a.price - b.price)
+        return products.sort((a, b) => (a.price || 0) - (b.price || 0))
       case "price-high":
-        return products.sort((a, b) => b.price - a.price)
+        return products.sort((a, b) => (b.price || 0) - (a.price || 0))
       case "rating":
-        return products.sort((a, b) => b.rating - a.rating)
+        return products.sort((a, b) => (b.rating || 0) - (a.rating || 0))
       case "best-matched":
       case "best-sales":
       default:
@@ -477,25 +99,42 @@ const ProductListingScreen: React.FC<{
     )
   }
 
+  const getProductImage = (product: any) => {
+    // Nếu product có image URL từ API, dùng nó
+    if (product.image && typeof product.image === 'string' && product.image.startsWith('http')) {
+      return { uri: product.image }
+    }
+    
+    // Fallback về local assets dựa trên category
+    if (product.category === 'electronics') {
+      return ASSET_PATHS.PRODUCTS_ELECTRONICS.ACCESSORIES
+    } else if (product.category === 'fruits') {
+      return ASSET_PATHS.PRODUCTS_FRUITS.APPLE
+    }
+    
+    // Default fallback
+    return require("../../assets/icon.png")
+  }
+
   const renderGridProduct = (product: any) => (
     <TouchableOpacity style={styles.gridProductCard} onPress={() => onViewProductDetail?.(product)}>
       <View style={styles.productImageContainer}>
-        <Image source={product.image} style={styles.productImage} resizeMode="cover" />
+        <Image source={getProductImage(product)} style={styles.productImage} resizeMode="cover" />
         <TouchableOpacity style={styles.favoriteButton}>
           <Ionicons name="heart-outline" size={20} color="#fff" />
         </TouchableOpacity>
       </View>
       <Text style={styles.productName} numberOfLines={2}>
-        {product.name}
+        {product.name || 'Unnamed Product'}
       </Text>
       <View style={styles.ratingRow}>
-        {renderRatingStars(product.rating)}
-        <Text style={styles.ratingText}>({product.rating})</Text>
+        {renderRatingStars(product.rating || 0)}
+        <Text style={styles.ratingText}>({product.rating || 0})</Text>
       </View>
       <View style={styles.priceAddRow}>
-        <Text style={styles.productPrice}>${product.price}</Text>
+        <Text style={styles.productPrice}>${product.price || 0}</Text>
         <TouchableOpacity style={styles.addButton}>
-          <Ionicons name="add-circle-outline" size={22} color="#00BCD4" />
+          <Ionicons name="add-circle-outline" size={22} color="#5B5FFF" />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -504,20 +143,55 @@ const ProductListingScreen: React.FC<{
   const renderListProduct = (product: any) => (
     <TouchableOpacity style={styles.listProductCard} key={product.id} onPress={() => onViewProductDetail?.(product)}>
       <View style={styles.listProductImageContainer}>
-        <Image source={product.image} style={styles.listProductImage} resizeMode="cover" />
+        <Image source={getProductImage(product)} style={styles.listProductImage} resizeMode="cover" />
       </View>
       <View style={styles.listProductContent}>
         <Text style={styles.listProductName} numberOfLines={2}>
-          {product.name}
+          {product.name || 'Unnamed Product'}
         </Text>
-        <View style={styles.listRatingContainer}>{renderRatingStars(product.rating)}</View>
-        <Text style={styles.listProductPrice}>${product.price}</Text>
+        <View style={styles.listRatingContainer}>{renderRatingStars(product.rating || 0)}</View>
+        <Text style={styles.listProductPrice}>${product.price || 0}</Text>
       </View>
       <TouchableOpacity style={styles.listAddButton}>
-        <Ionicons name="add-circle-outline" size={24} color="#00BCD4" />
+        <Ionicons name="add-circle-outline" size={24} color="#5B5FFF" />
       </TouchableOpacity>
     </TouchableOpacity>
   )
+
+  // Loading state
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.centerContainer}>
+          <ActivityIndicator size="large" color="#5B5FFF" />
+          <Text style={styles.loadingText}>Loading products...</Text>
+        </View>
+      </SafeAreaView>
+    )
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.centerContainer}>
+          <Ionicons name="alert-circle-outline" size={48} color="#F44336" />
+          <Text style={styles.errorText}>{error}</Text>
+          <TouchableOpacity 
+            style={styles.retryButton}
+            onPress={() => {
+              setLoading(true)
+              setError(null)
+              // Re-trigger fetch by changing a state that useEffect depends on
+              // Or you can extract fetch logic to a separate function and call it here
+            }}
+          >
+            <Text style={styles.retryButtonText}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    )
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -581,13 +255,13 @@ const ProductListingScreen: React.FC<{
               style={[styles.displayModeButton, displayMode === "grid" && styles.activeDisplayMode]}
               onPress={() => setDisplayMode("grid")}
             >
-              <Ionicons name="grid-outline" size={20} color={displayMode === "grid" ? "#00BCD4" : "#9E9E9E"} />
+              <Ionicons name="grid-outline" size={20} color={displayMode === "grid" ? "#5B5FFF" : "#9E9E9E"} />
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.displayModeButton, displayMode === "list" && styles.activeDisplayMode]}
               onPress={() => setDisplayMode("list")}
             >
-              <Ionicons name="list-outline" size={20} color={displayMode === "list" ? "#00BCD4" : "#9E9E9E"} />
+              <Ionicons name="list-outline" size={20} color={displayMode === "list" ? "#5B5FFF" : "#9E9E9E"} />
             </TouchableOpacity>
           </View>
         </View>
@@ -611,7 +285,7 @@ const ProductListingScreen: React.FC<{
               numColumns={2}
               scrollEnabled={false}
               columnWrapperStyle={styles.gridWrapper}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item) => item.id?.toString() || Math.random().toString()}
               renderItem={({ item }) => renderGridProduct(item)}
             />
           </View>
@@ -638,6 +312,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
+  },
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 32,
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: '#9E9E9E',
+    fontWeight: '500',
+  },
+  errorText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: '#F44336',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  retryButton: {
+    marginTop: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    backgroundColor: '#5B5FFF',
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
 
   // Header
@@ -755,7 +460,7 @@ const styles = StyleSheet.create({
     color: "#9E9E9E",
   },
   activeSortButtonText: {
-    color: "#00BCD4",
+    color: "#5B5FFF",
     fontWeight: "600",
   },
   displayModeContainer: {

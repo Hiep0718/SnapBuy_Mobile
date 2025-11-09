@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   successTitle: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#00BCD4",
+    color: "#5B5FFF",
     marginBottom: 8,
     textAlign: "center",
   },
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     paddingVertical: 14,
-    backgroundColor: "#00BCD4",
+    backgroundColor: "#5B5FFF",
     borderRadius: 8,
     marginBottom: 16,
   },

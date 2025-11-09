@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     borderColor: "#f0f0f0",
   },
   selectedPaymentCard: {
-    borderColor: "#00BCD4",
+    borderColor: "#5B5FFF",
     backgroundColor: "#f0fbfc",
   },
   paymentCardContent: {
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   radioButtonSelected: {
-    borderColor: "#00BCD4",
+    borderColor: "#5B5FFF",
   },
   radioButtonInner: {
     width: 10,
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     paddingVertical: 14,
-    backgroundColor: "#00BCD4",
+    backgroundColor: "#5B5FFF",
     borderRadius: 8,
     marginBottom: 16,
   },
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   addCardText: {
-    color: "#00BCD4",
+    color: "#5B5FFF",
     fontSize: 14,
     fontWeight: "600",
   },

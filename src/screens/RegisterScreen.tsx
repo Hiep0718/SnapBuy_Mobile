@@ -298,8 +298,8 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   checkboxChecked: {
-    backgroundColor: "#00BCD4",
-    borderColor: "#00BCD4",
+    backgroundColor: "#5B5FFF",
+    borderColor: "#5B5FFF",
   },
   termsText: {
     flex: 1,
@@ -310,13 +310,13 @@ const styles = StyleSheet.create({
   },
   termsLink: {
     fontWeight: "700",
-    color: "#00BCD4",
+    color: "#5B5FFF",
   },
 
   // Sign Up Button
   signUpButton: {
     paddingVertical: 14,
-    backgroundColor: "#00BCD4",
+    backgroundColor: "#5B5FFF",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   signInLink: {
     fontSize: 13,
     fontWeight: "700",
-    color: "#00BCD4",
+    color: "#5B5FFF",
   },
 })
 

@@ -24,6 +24,33 @@ export const ASSET_PATHS = {
     LAPTOP: require("../../assets/products/electronics/laptop.jpg"),
     TABLET: require("../../assets/products/electronics/tablet.jpg"),
     ACCESSORIES: require("../../assets/products/electronics/accessories.jpg"),
+    BANNER: require("../../assets/products/electronics/banner.jpg"),
+  },
+  // Products - Fashion
+  PRODUCTS_FASHION: {
+    BANER: require("../../assets/products/fashions/banner.jpg"),
+    YELLOW_HOODIE: require("../../assets/products/fashions/yellowHoodie.jpg"),
+    BULEJEANS: require("../../assets/products/fashions/classisbulejean.jpg"),
+    LETHERJACKET: require("../../assets/products/fashions/LeatherJacket.jpg"),
+    CASUALSHOES: require("../../assets/products/fashions/Casual_Sneakers.jpg"),
+    TSHIFT: require("../../assets/products/fashions/Cotton_T-Shirt.jpg"),
+    ELEPHANDRESS: require("../../assets/products/fashions/Elegant_Dress.jpg"),
+  },
+
+  // Products - Homes
+  PRODUCTS_HOMES: {
+    MEMORYFOAMPIILOW: require("../../assets/products/homes/Memory_Foam_Pillow.jpg"),
+    MODENRNLEDLAMP: require("../../assets/products/homes/Modern_LED_Lamp.jpg"),
+    SOFTCOTTONBLANKET: require("../../assets/products/homes/Soft_Cotton_Blanket.jpg"),
+    WALLMIRRORLARGE: require("../../assets/products/homes/Wall_Mirror_Large.jpg"),
+  },
+
+  // Products - Beauty
+  PRODUCTS_BEAUTY: {
+    HDFOUNDATION: require("../../assets/products/beautys/HD_Foundation.jpg"),
+    HYDRATINGMOISTURIZER: require("../../assets/products/beautys/Hydrating_Moisturizer.jpg"),
+    MATTELIPSTICK: require("../../assets/products/beautys/Matte_Lipstick_Set.jpg"),
+    VITAMINCFACESERUM: require("../../assets/products/beautys/Vitamin_C_Face_Serum.jpg"),
   },
 
   // Categories
@@ -34,6 +61,7 @@ export const ASSET_PATHS = {
     BEAUTY: require("../../assets/categories/beauty.jpg"),
     HOME: require("../../assets/categories/home.jpg"),
   },
+
 
   // Banners
   BANNERS: {

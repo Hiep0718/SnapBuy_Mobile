@@ -79,7 +79,7 @@ const SearchScreen: React.FC<{
         </View>
 
         <TouchableOpacity style={styles.filterButton} onPress={onShowFilter}>
-          <Ionicons name="options-outline" size={20} color="#00BCD4" />
+          <Ionicons name="options-outline" size={20} color="#5B5FFF" />
         </TouchableOpacity>
       </View>
 
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   clearText: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#00BCD4",
+    color: "#5B5FFF",
   },
 
   // Search History

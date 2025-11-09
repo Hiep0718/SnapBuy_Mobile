@@ -46,9 +46,9 @@ export default function ClothesDetailScreen({ navigation, onAddToCart, onNavigat
         description:
             "Soft cotton hoodie with comfortable fit and stylish design. Perfect for daily wear.",
         images: [
-            require("../../assets/products/electronics/smartphone-1.jpg"),
-            require("../../assets/products/electronics/smartphone-2.jpg"),
-            require("../../assets/products/electronics/smartphone-3.jpg"),
+            require("../../assets/products/fashions/yellowHoodie.jpg"),
+            require("../../assets/products/fashions/Cotton_T-Shirt.jpg"),
+            require("../../assets/products/fashions/classisbulejean.jpg"),
         ],
     };
 
@@ -106,7 +106,7 @@ export default function ClothesDetailScreen({ navigation, onAddToCart, onNavigat
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: "#fff", padding: 16 },
     buyButton: {
-        backgroundColor: "#00BFFF",
+        backgroundColor: "#5B5FFF",
         paddingVertical: 14,
         borderRadius: 10,
         alignItems: "center",

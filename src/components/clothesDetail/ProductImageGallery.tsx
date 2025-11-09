@@ -2,15 +2,15 @@ import React from "react";
 import { View, Image, ScrollView, StyleSheet } from "react-native";
 
 interface Props {
-    images: string[];
+    images: any[];
 }
 
 const ProductImageGallery: React.FC<Props> = ({ images }) => (
     <View>
-        <Image source={{ uri: images[0] }} style={styles.mainImage} />
+        <Image source={images[0]} style={styles.mainImage} />
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.thumbnailList}>
             {images.map((img, index) => (
-                <Image key={index} source={{ uri: img }} style={styles.thumbnail} />
+                <Image key={index} source={img} style={styles.thumbnail} />
             ))}
         </ScrollView>
     </View>

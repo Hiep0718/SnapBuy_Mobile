@@ -69,19 +69,25 @@ export const ProductDetailScreen: React.FC<{
             name="Headphone"
             price={99}
             rating={4.5}
-            image="https://images.unsplash.com/photo-1518444027026-7ec5d140974f"
+            image={require("../../assets/products/electronics/smartphone-1.jpg")}
           />
           <ProductCard
             name="Headphone"
             price={99}
             rating={4.5}
-            image="https://images.unsplash.com/photo-1580894732444-8ecded7900cf"
+            image={require("../../assets/products/electronics/smartphone-2.jpg")}
           />
           <ProductCard
             name="Headphone"
             price={99}
             rating={4.5}
-            image="https://images.unsplash.com/photo-1606813902775-9aabb9c1c5f0"
+            image={require("../../assets/products/electronics/smartphone-3.jpg")}
+          />
+          <ProductCard
+            name="Headphone"
+            price={99}
+            rating={4.5}
+            image={require("../../assets/products/electronics/smartphone-4.jpg")}
           />
         </ScrollView>
       </View>

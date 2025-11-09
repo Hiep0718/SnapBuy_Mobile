@@ -46,9 +46,9 @@ export default function ClothesDetailScreen({ navigation, onAddToCart, onNavigat
         description:
             "Soft cotton hoodie with comfortable fit and stylish design. Perfect for daily wear.",
         images: [
-            "https://images.unsplash.com/photo-1512436991641-6745cdb1723f",
-            "https://images.unsplash.com/photo-1556906781-9a412961c28c",
-            "https://images.unsplash.com/photo-1512436991641-6745cdb1723f",
+            require("../../assets/products/electronics/smartphone-1.jpg"),
+            require("../../assets/products/electronics/smartphone-2.jpg"),
+            require("../../assets/products/electronics/smartphone-3.jpg"),
         ],
     };
 

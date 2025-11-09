@@ -5,12 +5,12 @@ interface ProductCardProps {
     name: string;
     price: number;
     rating: number;
-    image: string;
+    image: any;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ name, price, rating, image }) => (
     <TouchableOpacity style={styles.card}>
-        <Image source={{ uri: image }} style={styles.image} />
+        <Image source={image} style={styles.image} />
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.rating}>⭐ {rating}</Text>
         <Text style={styles.price}>${price}</Text>

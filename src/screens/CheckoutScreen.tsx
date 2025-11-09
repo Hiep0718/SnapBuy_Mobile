@@ -27,7 +27,7 @@ const CheckoutScreen: React.FC<{
       description: "Consequat ex eu",
       price: 500,
       quantity: 1,
-      image: { uri: "https://via.placeholder.com/100?text=Headphone1" },
+      image: require("../../assets/products/electronics/smartphone-1.jpg"),
     },
     {
       id: "2",
@@ -35,7 +35,7 @@ const CheckoutScreen: React.FC<{
       description: "Consequat ex eu",
       price: 300,
       quantity: 1,
-      image: { uri: "https://via.placeholder.com/100?text=Headphone2" },
+      image: require("../../assets/products/electronics/smartphone-2.jpg"),
     },
   ]
 

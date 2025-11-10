@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { useState } from "react"
 import { View, Text, ScrollView, StyleSheet, SafeAreaView, TouchableOpacity, TextInput, Dimensions, Image } from "react-native"
@@ -12,12 +10,12 @@ const searchHistory = ["iPhone 15", "Samsung Galaxy", "iPad Pro", "MacBook"]
 const popularSearches = ["Smartphone", "Laptop", "Tablet", "Headphones", "Camera", "Watch"]
 
 const searchResults = [
-  { id: 1, name: "iPhone 15 Pro", price: 1099, rating: 5, image: require("../../assets/icon.png") },
-  { id: 2, name: "Samsung Galaxy S24", price: 899, rating: 4.5, image: require("../../assets/icon.png") },
-  { id: 3, name: "Google Pixel 8", price: 799, rating: 4, image: require("../../assets/icon.png") },
-  { id: 4, name: "OnePlus 12", price: 699, rating: 4.5, image: require("../../assets/icon.png") },
-  { id: 5, name: "Xiaomi 14", price: 599, rating: 4, image: require("../../assets/icon.png") },
-  { id: 6, name: "Motorola Edge", price: 549, rating: 3.5, image: require("../../assets/icon.png") },
+  { id: 1, name: "iPhone 15 Pro", price: 1099, rating: 5, image: require("../../assets/products/electronics/smartphone-1.jpg") },
+  { id: 2, name: "Samsung Galaxy S24", price: 899, rating: 4.5, image: require("../../assets/products/electronics/smartphone-2.jpg") },
+  { id: 3, name: "Google Pixel 8", price: 799, rating: 4, image: require("../../assets/products/electronics/smartphone-3.jpg") },
+  { id: 4, name: "OnePlus 12", price: 699, rating: 4.5, image: require("../../assets/products/electronics/smartphone-4.jpg") },
+  { id: 5, name: "Xiaomi 14", price: 599, rating: 4, image: require("../../assets/products/electronics/smartphone-1.jpg") },
+  { id: 6, name: "Motorola Edge", price: 549, rating: 3.5, image: require("../../assets/products/electronics/smartphone-3.jpg") },
 ]
 
 const { width: screenWidth } = Dimensions.get("window")

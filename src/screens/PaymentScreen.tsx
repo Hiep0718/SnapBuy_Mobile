@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { useState } from "react"
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native"
@@ -56,7 +54,7 @@ const PaymentScreen: React.FC<{
         {/* Total Section */}
         <View style={styles.totalSection}>
           <Text style={styles.totalLabel}>TOTAL</Text>
-          <Text style={styles.totalAmount}>$3,080</Text>
+          <Text style={styles.totalAmount}>$1,096</Text>
         </View>
 
         {/* Payment Methods */}
